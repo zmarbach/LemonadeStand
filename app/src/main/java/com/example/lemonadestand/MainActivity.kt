@@ -49,6 +49,7 @@ fun LemonadeStand() {
 
     var currentStep by remember { mutableStateOf(step1) }
     var numberOfClicks by remember { mutableStateOf(0) }
+    //Randomly set the number of squeezes required to move from step 2 to step 3
     var numberOfRequiredSqueezes by remember { mutableStateOf((2..4).random()) }
 
     Column(modifier = Modifier.wrapContentSize(Alignment.Center), horizontalAlignment = Alignment.CenterHorizontally) {
@@ -65,9 +66,12 @@ fun LemonadeStand() {
                     numberOfClicks++
 
                     currentStep = when(numberOfClicks){
+                        //Do not move on to step 3 until the user has "squeezed" the lemon the required number of times
                         in 1..numberOfRequiredSqueezes -> step2
+                        //Show other steps accordingly on each subsequent click after meeting number of required squeezes
                         numberOfRequiredSqueezes + 1 -> step3
                         numberOfRequiredSqueezes + 2 -> step4
+                        //Restart scenario
                         else -> step1
                     }
 
